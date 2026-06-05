@@ -2,124 +2,456 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>学生项目学习成长手册</title>
   <style>
-    @page { size: A4; margin: 1.8cm 1.7cm; }
+    :root {
+      --ink: #1f2933;
+      --muted: #617280;
+      --line: #d7dee4;
+      --panel: #ffffff;
+      --page: #f3f7f8;
+      --teal: #0f4c5c;
+      --teal-soft: #e7f3f5;
+      --gold: #b7862f;
+      --gold-soft: #f8f1df;
+      --green: #2f6f5e;
+      --rose: #9b3d4f;
+      --shadow: 0 18px 45px rgba(23, 44, 55, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: "Microsoft YaHei", "SimSun", Arial, sans-serif;
-      color: #1f2933;
-      font-size: 11pt;
-      line-height: 1.55;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.6;
+      margin: 0;
+      background: var(--page);
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 64px;
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .brand strong {
+      color: var(--teal);
+      font-size: 20px;
+      line-height: 1.2;
+    }
+    .brand span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .print-btn {
+      border: 0;
+      border-radius: 6px;
+      padding: 9px 14px;
+      background: var(--teal);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .print-btn:hover { background: #0b3f4d; }
+    .layout {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      gap: 22px;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 22px 28px 48px;
+    }
+    .sidebar {
+      position: sticky;
+      top: 86px;
+      height: calc(100vh - 108px);
+      align-self: start;
+      overflow: auto;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(23, 44, 55, 0.08);
+    }
+    .sidebar-title {
+      margin: 0 0 12px;
+      color: var(--teal);
+      font-weight: 700;
+      font-size: 17px;
+    }
+    .nav-list {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .nav-list a {
+      display: block;
+      padding: 9px 10px;
+      border-radius: 6px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+    .nav-list a:hover,
+    .nav-list a.active {
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-weight: 700;
+    }
+    .manual {
+      min-width: 0;
+      display: grid;
+      gap: 18px;
     }
     h1, h2, h3 {
       margin: 0;
       font-weight: 700;
-      color: #0f4c5c;
+      color: var(--teal);
+      scroll-margin-top: 86px;
     }
-    h1 { font-size: 26pt; letter-spacing: 0; }
+    h1 { font-size: 42px; letter-spacing: 0; }
     h2 {
-      font-size: 16pt;
-      border-left: 8px solid #b7862f;
+      font-size: 28px;
+      border-left: 8px solid var(--gold);
       padding-left: 10px;
-      margin: 18px 0 10px;
+      margin: 8px 0 12px;
     }
-    h3 { font-size: 13pt; margin: 12px 0 6px; color: #1f5f72; }
+    h3 { font-size: 20px; margin: 14px 0 8px; color: #1f5f72; }
     p { margin: 5px 0; }
+    .cover,
+    .content-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 8px 0 12px;
+      margin: 10px 0 14px;
       table-layout: fixed;
+      background: #fff;
     }
     th, td {
-      border: 1px solid #7b8794;
-      padding: 6px 7px;
+      border: 1px solid var(--line);
+      padding: 11px 12px;
       vertical-align: top;
       word-wrap: break-word;
     }
     th {
-      background: #e8f3f6;
+      background: var(--teal-soft);
       color: #183b56;
       font-weight: 700;
       text-align: center;
     }
+    td[contenteditable="true"] {
+      background: #fffdf7;
+      outline: 2px solid transparent;
+      transition: outline-color 0.15s ease, background 0.15s ease;
+    }
+    td[contenteditable="true"]:focus {
+      background: #fff;
+      outline-color: rgba(183, 134, 47, 0.35);
+    }
+    td[contenteditable="true"]:empty::before {
+      content: "点击填写";
+      color: #9aa5b1;
+    }
     .cover {
       text-align: center;
-      padding-top: 95px;
+      position: relative;
+      overflow: hidden;
+      padding: 76px 56px 54px;
+      background:
+        radial-gradient(circle at 14% 16%, rgba(183, 134, 47, 0.16), transparent 28%),
+        radial-gradient(circle at 86% 18%, rgba(15, 76, 92, 0.12), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #fbf7ef 46%, #eef8f8 100%);
+    }
+    .cover::before,
+    .cover::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+    .cover::before {
+      inset: 22px;
+      border: 1px solid rgba(183, 134, 47, 0.28);
+      border-radius: 8px;
+    }
+    .cover::after {
+      width: 260px;
+      height: 260px;
+      right: -90px;
+      bottom: -110px;
+      border-radius: 50%;
+      border: 28px solid rgba(15, 76, 92, 0.08);
     }
     .cover .unit {
-      font-size: 18pt;
-      color: #b7862f;
-      margin-bottom: 14px;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 24px;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 16px;
       font-weight: 700;
+      text-transform: uppercase;
+    }
+    .cover .unit::before,
+    .cover .unit::after {
+      content: "";
+      width: 58px;
+      height: 1px;
+      background: rgba(183, 134, 47, 0.58);
+    }
+    .cover .theme {
+      position: relative;
+      margin: 0 auto 14px;
+      color: var(--teal);
+      font-size: 38px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+    .cover h1 {
+      position: relative;
+      display: inline-block;
+      margin-top: 4px;
+      padding: 8px 24px 10px;
+      color: #ffffff;
+      font-size: 34px;
+      background: var(--teal);
+      border-radius: 6px;
+      box-shadow: 0 12px 24px rgba(15, 76, 92, 0.18);
     }
     .cover .subtitle {
-      font-size: 15pt;
-      margin-top: 12px;
+      position: relative;
+      font-size: 19px;
+      margin-top: 18px;
       color: #334e68;
     }
     .cover-table {
       width: 78%;
-      margin: 70px auto 0;
-      font-size: 12pt;
+      margin: 44px auto 0;
+      font-size: 17px;
     }
     .cover-table td {
       border: 0;
-      border-bottom: 1px solid #7b8794;
+      border-bottom: 1px solid var(--line);
       height: 32px;
     }
     .slogan {
-      margin-top: 55px;
-      font-size: 14pt;
-      color: #0f4c5c;
+      margin-top: 36px;
+      font-size: 20px;
+      color: var(--teal);
       font-weight: 700;
     }
-    .page-break { page-break-before: always; }
+    .page-break {
+      height: 0;
+      margin-top: 4px;
+      scroll-margin-top: 86px;
+    }
     .note {
-      background: #f7f0df;
-      border-left: 6px solid #b7862f;
-      padding: 8px 10px;
-      margin: 10px 0;
+      background: var(--gold-soft);
+      border-left: 6px solid var(--gold);
+      padding: 12px 14px;
+      margin: 12px 0;
+      border-radius: 6px;
     }
     .tag {
       display: inline-block;
-      border: 1px solid #b7862f;
+      border: 1px solid rgba(183, 134, 47, 0.55);
       color: #7a4d09;
-      padding: 1px 6px;
+      background: var(--gold-soft);
+      border-radius: 999px;
+      padding: 2px 9px;
       margin-right: 5px;
-      font-size: 9.5pt;
+      font-size: 15px;
     }
-    .small { font-size: 9.5pt; color: #52606d; }
+    .small { font-size: 15px; color: var(--muted); }
     .center { text-align: center; }
     .fill {
-      color: #52606d;
+      color: var(--muted);
       border-bottom: 1px solid #9aa5b1;
       display: inline-block;
       min-width: 160px;
     }
-    .blank {
-      height: 42px;
-    }
-    .tall {
-      height: 74px;
-    }
-    .very-tall {
-      height: 105px;
-    }
+    .blank { min-height: 42px; }
+    .tall { min-height: 76px; }
+    .very-tall { min-height: 112px; }
     .checkline {
       line-height: 1.9;
     }
     .no-border td, .no-border th { border: 0; }
     .score-table td { text-align: center; vertical-align: middle; }
     .left { text-align: left; }
-    .muted { color: #52606d; }
+    .muted { color: var(--muted); }
+    .manual > h2,
+    .manual > h3,
+    .manual > p,
+    .manual > table,
+    .manual > .note {
+      background: var(--panel);
+      border-left-width: 0;
+    }
+    .manual > h2 {
+      margin-top: 18px;
+      padding: 18px 20px 0 20px;
+      border-radius: 8px 8px 0 0;
+      box-shadow: var(--shadow);
+      border-left: 8px solid var(--gold);
+    }
+    .manual > h2 + p,
+    .manual > h2 + .note,
+    .manual > h2 + table,
+    .manual > h2 + .note + table,
+    .manual > h2 + p + h3,
+    .manual > h2 + p + table {
+      margin-top: -18px;
+    }
+    .manual > table,
+    .manual > h3,
+    .manual > p,
+    .manual > .note {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .manual > table {
+      display: table;
+      padding: 0;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .manual > h3,
+    .manual > p,
+    .manual > .note {
+      box-shadow: var(--shadow);
+    }
+    .manual > h3 {
+      padding-top: 12px;
+    }
+    .manual > p,
+    .manual > .note {
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+      .nav-list {
+        grid-template-columns: 1fr;
+      }
+      .cover {
+        padding: 46px 22px 34px;
+      }
+      .cover .theme { font-size: 32px; }
+      .cover h1 { font-size: 30px; }
+      .cover-table { width: 100%; }
+      h1 { font-size: 34px; }
+      table { table-layout: auto; }
+      th, td { min-width: 120px; }
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 12px 16px;
+      }
+    }
+    @media print {
+      @page { size: A4; margin: 1.8cm 1.7cm; }
+      body { background: #fff; font-size: 12pt; }
+      .topbar, .sidebar { display: none; }
+      .layout { display: block; padding: 0; max-width: none; }
+      .manual { display: block; }
+      .cover, .content-card, .manual > h2, .manual > h3, .manual > p, .manual > table, .manual > .note {
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .cover { border: 0; padding-top: 72px; }
+      .page-break { page-break-before: always; }
+      h1 { font-size: 26pt; }
+      h2 { font-size: 16pt; }
+      h3 { font-size: 13pt; }
+      td[contenteditable="true"]:empty::before { content: ""; }
+    }
   </style>
 </head>
 <body>
-  <div class="cover">
-    <div class="unit">Unit 6 Craftsmanship</div>
+  <header class="topbar">
+    <div class="brand">
+      <strong>学生项目学习成长手册</strong>
+      <span>英语话非遗 珠光显匠心</span>
+    </div>
+    <div class="top-actions">
+      <span class="pill">12 学时项目学习</span>
+      <span class="pill">5C 评价贯穿全过程</span>
+      <span class="pill">填写内容自动保存在本机浏览器</span>
+      <button class="print-btn" type="button" onclick="window.print()">打印 / 导出 PDF</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <p class="sidebar-title">目录导航</p>
+      <ul class="nav-list">
+        <li><a href="#cover">封面信息</a></li>
+        <li><a href="#challenge">项目挑战</a></li>
+        <li><a href="#route">学习路线</a></li>
+        <li><a href="#fivec">5C 评价</a></li>
+        <li><a href="#task1">任务一：练听力 明工匠品质</a></li>
+        <li><a href="#task2">任务二：学会话 定交流展品</a></li>
+        <li><a href="#task3">任务三：读故事 悟匠人精神</a></li>
+        <li><a href="#task4">任务四：探语法 述非遗技艺</a></li>
+        <li><a href="#task5">任务五：搭框架 展非遗饰美</a></li>
+        <li><a href="#task6">任务六：融实践 助文化交流</a></li>
+        <li><a href="#evaluation">多元评价</a></li>
+        <li><a href="#portfolio">成长证据</a></li>
+      </ul>
+    </aside>
+    <main class="manual">
+  <div class="cover" id="cover">
+    <div class="unit">Craftsmanship</div>
+    <div class="theme">英语话非遗 珠光显匠心</div>
     <h1>学生项目学习成长手册</h1>
-    <div class="subtitle">英语话非遗 珠光显匠心</div>
     <div class="subtitle">首饰设计与制作专业 | 12 学时项目学习</div>
     <table class="cover-table">
       <tr><td style="width: 28%;">姓名</td><td></td></tr>
@@ -132,9 +464,9 @@
   </div>
 
   <div class="page-break"></div>
-  <h2>一、项目挑战书</h2>
+  <h2 id="challenge">一、项目挑战书</h2>
   <div class="note">
-    你将以“鲁班工坊中外交流活动”参展学生的身份，和小组成员共同完成一件非遗首饰作品、一个创意英文展板、一段英文展品介绍，并在成果展演中与外宾开展互动交流。
+    以鲁班工坊参展学生的身份，我会同组员一起学习匠人品质、优秀工匠事迹，动手做好非遗首饰、设计英文展板，汇报时用英语介绍作品，和外宾互动交流。
   </div>
   <table>
     <tr>
@@ -157,7 +489,7 @@
     </tr>
   </table>
 
-  <h2>二、12 学时学习路线图</h2>
+  <h2 id="route">二、12 学时学习路线图</h2>
   <table>
     <tr>
       <th style="width: 13%;">课时</th>
@@ -203,7 +535,7 @@
     </tr>
   </table>
 
-  <h2>三、5C 项目成长评价</h2>
+  <h2 id="fivec">三、5C 项目成长评价</h2>
   <p>本手册评价与课堂 5C 学评单保持一致，贯穿课前准备、课中活动、课后反思和最终展演全过程。</p>
   <table>
     <tr>
@@ -219,7 +551,7 @@
       <td class="center">1 2 3 4 5</td>
     </tr>
     <tr>
-      <td><b>Creation</b><br>创造力</td>
+      <td><b>Creativity</b><br>创造力</td>
       <td>能在作品、展板、表达方式中体现设计想法和创新呈现。</td>
       <td>作品有文化寓意；展板图文协调；展示方式有吸引力。</td>
       <td class="center">1 2 3 4 5</td>
@@ -265,7 +597,7 @@
   </table>
 
   <div class="page-break"></div>
-  <h2>任务一：练听力 明工匠品质</h2>
+  <h2 id="task1">任务一：练听力 明工匠品质</h2>
   <p><span class="tag">第 1-2 课时</span><span class="tag">Listening</span><span class="tag">Know it</span></p>
   <table>
     <tr>
@@ -306,7 +638,7 @@
   </table>
 
   <div class="page-break"></div>
-  <h2>任务二：学会话 定交流展品</h2>
+  <h2 id="task2">任务二：学会话 定交流展品</h2>
   <p><span class="tag">第 3-4 课时</span><span class="tag">Speaking</span><span class="tag">Know it → Make it</span></p>
   <table>
     <tr>
@@ -349,7 +681,7 @@
   </table>
 
   <div class="page-break"></div>
-  <h2>任务三：读故事 悟匠人精神</h2>
+  <h2 id="task3">任务三：读故事 悟匠人精神</h2>
   <p><span class="tag">第 5-6 课时</span><span class="tag">Reading</span><span class="tag">Inherit it</span></p>
   <table>
     <tr>
@@ -390,7 +722,7 @@
   </table>
 
   <div class="page-break"></div>
-  <h2>任务四：探语法 述非遗技艺</h2>
+  <h2 id="task4">任务四：探语法 述非遗技艺</h2>
   <p><span class="tag">第 7-8 课时</span><span class="tag">Grammar</span><span class="tag">Make it</span></p>
   <table>
     <tr>
@@ -427,7 +759,7 @@
   </table>
 
   <div class="page-break"></div>
-  <h2>任务五：搭框架 展非遗饰美</h2>
+  <h2 id="task5">任务五：搭框架 展非遗饰美</h2>
   <p><span class="tag">第 9-10 课时</span><span class="tag">Writing</span><span class="tag">Inherit it → Create it</span></p>
   <table>
     <tr>
@@ -482,7 +814,7 @@
   </table>
 
   <div class="page-break"></div>
-  <h2>任务六：融实践 助文化交流</h2>
+  <h2 id="task6">任务六：融实践 助文化交流</h2>
   <p><span class="tag">第 11-12 课时</span><span class="tag">Unit Task</span><span class="tag">Create it</span></p>
   <table>
     <tr>
@@ -519,7 +851,7 @@
   </table>
 
   <div class="page-break"></div>
-  <h2>四、成果展演多元评价</h2>
+  <h2 id="evaluation">四、成果展演多元评价</h2>
   <p>展演结束后，请根据课堂 5C 学评单和多元评价主体进行综合记录。评价关注学习全过程、展演表现、技艺水准与综合素养。</p>
   <h3>1. 5C 综合评分表</h3>
   <table class="score-table">
@@ -533,7 +865,7 @@
       <th>改进目标</th>
     </tr>
     <tr><td class="left">Context 情境模拟</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td class="left">Creation 创造力</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="left">Creativity 创造力</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     <tr><td class="left">Communication 沟通力</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     <tr><td class="left">Cross-culture 跨文化理解</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     <tr><td class="left">Career 职业自信</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -552,7 +884,7 @@
   </table>
 
   <div class="page-break"></div>
-  <h2>五、我的成长证据袋</h2>
+  <h2 id="portfolio">五、我的成长证据袋</h2>
   <table>
     <tr><th style="width: 28%;">成长证据</th><th style="width: 16%;">是否完成</th><th>存放位置 / 说明</th></tr>
     <tr><td>听力闯关记录</td><td class="center">□</td><td></td></tr>
@@ -573,7 +905,7 @@
     <tr><th>我的下一步行动</th><td class="very-tall">我将继续用英语讲好中国故事，用专业技能传承和创新非遗技艺。</td></tr>
   </table>
 
-  <h2>六、项目宣言</h2>
+  <h2 id="declaration">六、项目宣言</h2>
   <div class="note center">
     我理解非遗首饰的文化价值，愿意以专业技能传承匠心；<br>
     我愿用英语讲好中国非遗故事，在学习与未来职业中坚持创作富有感染力的作品。<br>
@@ -585,5 +917,46 @@
       <td>日期：________________________</td>
     </tr>
   </table>
+    </main>
+  </div>
+  <script>
+    const editableCells = [];
+    document.querySelectorAll("td").forEach((cell, index) => {
+      const text = cell.textContent.trim();
+      const shouldEdit =
+        text === "" ||
+        cell.classList.contains("blank") ||
+        cell.classList.contains("tall") ||
+        cell.classList.contains("very-tall");
+      if (!shouldEdit) return;
+      cell.contentEditable = "true";
+      cell.dataset.field = `field-${index}`;
+      const saved = localStorage.getItem(`growth-manual:${cell.dataset.field}`);
+      if (saved) cell.innerHTML = saved;
+      editableCells.push(cell);
+    });
+
+    editableCells.forEach((cell) => {
+      cell.addEventListener("input", () => {
+        localStorage.setItem(`growth-manual:${cell.dataset.field}`, cell.innerHTML);
+      });
+    });
+
+    const navLinks = Array.from(document.querySelectorAll(".nav-list a"));
+    const targets = navLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => link.classList.remove("active"));
+        const active = document.querySelector(`.nav-list a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add("active");
+      });
+    }, { rootMargin: "-28% 0px -62% 0px", threshold: 0.01 });
+
+    targets.forEach((target) => observer.observe(target));
+  </script>
 </body>
 </html>
